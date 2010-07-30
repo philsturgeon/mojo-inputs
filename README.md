@@ -1,22 +1,22 @@
 # Mojo Inputs
 
-	Get access to GET, POST and Cookie data. Also gives you the users ip address and user agent.
+Get access to GET, POST and Cookie data. Also gives you the users ip address and user agent.
 
 ## Installation
 
-	1. Download the files and place in a folder named "inputs" in:
+1. Download the files and place in a folder named "inputs" in:
 
-		system/mojomotor/third_party/
+	system/mojomotor/third_party/
 
-	2. Open system/mojomotor/config/config.php and set:
+2. Open system/mojomotor/config/config.php and set:
 
-		$config['uri_protocol']	= "PATH_INFO";
+	$config['uri_protocol']	= "PATH_INFO";
 
-		Notice: If you skip this step you will get a 404 whenever you try to add a query string to your URL.
+	Notice: If you skip this step you will get a 404 whenever you try to add a query string to your URL.
 
 ## Usage
 
-	At the moment it seems you can only use these tags inside of Layouts.
+At the moment it seems you can only use these tags inside of Layouts.
 
 ### Mojo Tags
 
