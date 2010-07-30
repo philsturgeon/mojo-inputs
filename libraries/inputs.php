@@ -26,7 +26,8 @@ class Inputs
 	 */
 	function __construct()
 	{
-		$this->input =& load_class('Input');
+		$this->addon =& get_instance();
+		$this->input =& $this->addon->input;
 	}
 
 	// --------------------------------------------------------------------
@@ -51,9 +52,9 @@ class Inputs
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get
+	 * Post
 	 *
-	 * Get a $_GET variable.
+	 * Get a $_POST variable.
 	 *
 	 * @access	public
 	 * @param	array
@@ -69,52 +70,65 @@ class Inputs
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get
+	 * Session
 	 *
-	 * Get a $_GET variable.
+	 * Set or get a variable to the CodeIgniter/Mojo session.
 	 *
 	 * @access	public
 	 * @param	array
 	 * @return	string
+	 */
+	function session($template_data = array())
+	{
+		$params =& $template_data['parameters'];
+		
+		$this->addon->load->library('session');
+
+		if ( isset($params['name']) AND isset($params['value']))
+		{
+			$this->addon->session->set_userdata($params['name'], $params['value']);
+		}
+
+		else
+		{
+			return isset($params['name']) ? $this->addon->session->userdata($params['name']) : '';
+		}
+	}
+
+	// --------------------------------------------------------------------
+
+	/**
+	 * Set cookie
+	 *
+	 * Set a $_COOKIE variable.
+	 *
+	 * @access	public
+	 * @param	array
+	 * @return	void
 	 */
 	function cookie($template_data = array())
 	{
 		$params =& $template_data['parameters'];
 
-		return isset($params['name']) ? $this->input->cookie($params['name']) : '';
-	}
-
-	// --------------------------------------------------------------------
-
-	/**
-	 * Get
-	 *
-	 * Get a $_GET variable.
-	 *
-	 * @access	public
-	 * @param	array
-	 * @return	string
-	 */
-	function set_cookie($template_data = array())
-	{
-		$params =& $template_data['parameters'];
-
-		if ( ! isset($params['name']) OR ! isset($params['value']))
+		if ( isset($params['name']) AND isset($params['value']))
 		{
-			return;
+			$expire = isset($params['expire']) ? $params['expire'] : '';
+
+			$this->input->set_cookie($params['name'], $params['value'], $expire);
 		}
 
-		$expire = isset($params['expire']) ? $params['expire'] : '';
-
-		$this->input->set_cookie($params['name'], $params['value'], $expire);
+		else
+		{
+			return isset($params['name']) ? $this->input->cookie($params['name']) : '';
+		}
 	}
 
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get
+	 * Server
 	 *
-	 * Get a $_GET variable.
+	 * Get a $_SERVER variable.
 	 *
 	 * @access	public
 	 * @param	array
@@ -130,9 +144,9 @@ class Inputs
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get
+	 * IP Address
 	 *
-	 * Get a $_GET variable.
+	 * Get the users IP Address
 	 *
 	 * @access	public
 	 * @param	array
@@ -146,9 +160,9 @@ class Inputs
 	// --------------------------------------------------------------------
 
 	/**
-	 * Get
+	 * User Agent
 	 *
-	 * Get a $_GET variable.
+	 * Get the users user agent.
 	 *
 	 * @access	public
 	 * @param	array
